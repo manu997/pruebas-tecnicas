@@ -1,54 +1,30 @@
 import allBooks from '../books.json';
 import BookPreview from './components/BookPreview';
-import Select from './components/Select';
-import { useMemo, useState, useCallback } from 'react';
+import BooksBasket from './components/BooksBasket';
+import { useState } from 'react';
+import Header from './components/Header';
+import { IBook } from './types';
 
 function Layout() {
-  const [books, setBooks] = useState(allBooks.library);
-
-  const filterByGenre = useCallback((genre: string) => {
-    if (genre === 'all') {
-      setBooks(allBooks.library);
-    } else {
-      const filteredBooks = allBooks.library.filter(
-        ({ book }) => book.genre === genre
-      );
-      setBooks(filteredBooks);
-    }
-  }, []);
-
-  const genres = useMemo(() => {
-    const allGenres = allBooks.library.map(({ book }) => book.genre);
-    const uniqueGenres = [...new Set(allGenres)];
-    return uniqueGenres.map((genre) => ({ label: genre, value: genre }));
-  }, []);
+  const [books, setBooks] = useState<IBook[]>(allBooks.library);
+  const [showBasket, setShowBasket] = useState(false);
 
   return (
-    <main className='flex md:flex-row flex-col justify-center mt-6 mb-12 mx-5'>
-      <div className='md:w-[25%]'></div>
-      <div className='flex flex-col md:w-[50%] justify-center gap-3'>
-        <h1 className='md:text-4xl text-3xl text-gray-200'>
-          Catálogo de libros
-        </h1>
-        <h5 className='md:text-xl text-lg text-gray-300'>
-          Libros disponibles: {books.length}
-        </h5>
-        <hr className='opacity-8 ' />
-        <div className='flex mb-5 md:flex-row flex-col gap-3'>
-          <Select
-            label='Género'
-            options={genres}
-            onChange={(e) => filterByGenre(e.target.value)}
-          />
-        </div>
+    <>
+      <div className='flex flex-col justify-center lg:px-24 lg:py-5 p-3 gap-3'>
+        <Header
+          books={books}
+          setBooks={setBooks}
+          setShowBasket={setShowBasket}
+        />
         <div className='flex flex-col gap-5'>
-          {books.map(({ book }) => (
+          {books.map((book) => (
             <BookPreview key={book.ISBN} book={book} />
           ))}
         </div>
       </div>
-      <div className='md:w-[25%]'></div>
-    </main>
+      {showBasket && <BooksBasket setShowBasket={setShowBasket} />}
+    </>
   );
 }
 

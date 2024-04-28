@@ -6,3 +6,18 @@ body {
   --tw-bg-opacity: 1;
   background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
+
+header {
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.overflow-y-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.overflow-y-scroll {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

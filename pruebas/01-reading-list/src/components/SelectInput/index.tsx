@@ -20,7 +20,9 @@ const Select = ({ label, options, onChange }: ISelect) => {
       >
         <option value='all'>Todos</option>
         {options.map(({ label, value }) => (
-          <option value={value}>{label}</option>
+          <option key={value} value={value}>
+            {label}
+          </option>
         ))}
       </select>
     </div>
